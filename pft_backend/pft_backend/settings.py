@@ -69,12 +69,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-LOCAL_APSS = [
-    "login.apps.LoginConfig",
-    "crop_settings.apps.CropSettingsConfig",
-    "movements.apps.MovementsConfig",
-    "price_calculate.apps.PriceCalculateConfig",
-]
+LOCAL_APSS = ["login.apps.LoginConfig"]
 
 # We concatenate the list with the apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_APPS + LOCAL_APSS
