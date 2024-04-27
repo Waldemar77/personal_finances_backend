@@ -1,6 +1,5 @@
 from django.db import models
 
-
 # Creating model for userdata table.
 class UserData(models.Model):
     user_id = models.AutoField(primary_key=True)
