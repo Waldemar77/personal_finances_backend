@@ -101,16 +101,16 @@ WSGI_APPLICATION = "pft_backend.wsgi.application"
 
 DATABASES = {
     # >>> default database to interact with Render platform, to deploy, we must use it
-    # "default": dj_database_url.config(
-    #    default=f"postgres://pftadmin:KeGrsweeS0qmWLZMNekkMnX6lhcoa3TG@dpg-cokp6q0l5elc73de8910-a/pft_database",
-    #    conn_max_age=600,
-    # )
-
-    # >>> to test in shell, we use this default database, external connection with postgresql
     "default": dj_database_url.config(
-        default=f"postgres://pftadmin:KeGrsweeS0qmWLZMNekkMnX6lhcoa3TG@dpg-cokp6q0l5elc73de8910-a.oregon-postgres.render.com/pft_database",
+        default=f"postgres://{os.DB_USER}:{os.DB_PASSWORD}@{os.DB_HOST}/{os.DB_NAME}",
         conn_max_age=600,
     )
+
+    # >>> to test in shell, we use this default database, external connection with postgresql
+    #"default": dj_database_url.config(
+    #    default=f"postgres://{os.DB_USER}:{os.DB_PASSWORD}@{os.DB_HOST}.oregon-postgres.render.com/{os.DB_NAME}",
+    #    conn_max_age=600,
+    #)
 }
 
 
