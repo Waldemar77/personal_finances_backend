@@ -23,23 +23,22 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", default="your secret key")
-# SECRET_KEY = "django-insecure-^n&akcl=f81e03z*@zvf-^_9xta6g0s7)mk@g=acd$ulooafd*"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # uncomment when we are deploying
-DEBUG = "RENDER" not in os.environ
+#DEBUG = "RENDER" not in os.environ
 
 # comment this line when we are deploying
-# DEBUG = True
+DEBUG = True
 
 # comment this line when we are deploying
-# ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["*"]
 
 # uncomment when we are deploying on Render
-ALLOWED_HOSTS = []
-RENDER_EXTERNAL_HOSTNAME = os.getenv("RENDER_EXTERNAL_HOSTNAME")
-if RENDER_EXTERNAL_HOSTNAME:
-    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+#ALLOWED_HOSTS = []
+#RENDER_EXTERNAL_HOSTNAME = os.getenv("RENDER_EXTERNAL_HOSTNAME")
+#if RENDER_EXTERNAL_HOSTNAME:
+#    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 
 # Application definition
@@ -101,12 +100,13 @@ WSGI_APPLICATION = "pft_backend.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    # default database to interact with Render platform, to deploy, we must use it
+    # >>> default database to interact with Render platform, to deploy, we must use it
     # "default": dj_database_url.config(
     #    default=f"postgres://pftadmin:KeGrsweeS0qmWLZMNekkMnX6lhcoa3TG@dpg-cokp6q0l5elc73de8910-a/pft_database",
     #    conn_max_age=600,
     # )
-    # to test in shell, we use this default database, external connection with postgresql
+
+    # >>> to test in shell, we use this default database, external connection with postgresql
     "default": dj_database_url.config(
         default=f"postgres://pftadmin:KeGrsweeS0qmWLZMNekkMnX6lhcoa3TG@dpg-cokp6q0l5elc73de8910-a.oregon-postgres.render.com/pft_database",
         conn_max_age=600,
