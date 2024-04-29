@@ -102,7 +102,7 @@ WSGI_APPLICATION = "pft_backend.wsgi.application"
 DATABASES = {
     # >>> default database to interact with Render platform, to deploy, we must use it
     "default": dj_database_url.config(
-        default=f"postgres://{os.DB_USER}:{os.DB_PASSWORD}@{os.DB_HOST}/{os.DB_NAME}",
+        default=f"postgres://{os.getenv('DB_USER', default='db_user')}:{os.getenv('DB_PASSWORD', default='db_pwd')}@{os.getenv('DB_HOST', default='db_host')}/{os.getenv('DB_NAME', default='db_name')}",
         conn_max_age=600,
     )
 
