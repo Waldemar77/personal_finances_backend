@@ -11,7 +11,7 @@ from .serializers import *
 
 
 # >>> function for interacting with all data from userdata table
-#@api_view(["GET", "POST", "PUT"])
+@api_view(["GET", "POST", "PUT"])
 @csrf_exempt  # >>> this decorator allows to use the request POST, because CSFR is a security level to validate proper request
 def user_data_api(request, id_in=0):
     # >>> Figure user data out by id through GET http request
@@ -22,7 +22,7 @@ def user_data_api(request, id_in=0):
         # >>> variable to instance a serializer data for each instance of UserData
         user_srlz = UserSerializer(user_model, many=True)
 
-        return JsonResponse(user_srlz.data)
+        return JsonResponse(user_srlz.data, safe=False)
     elif request.method == "POST":
         # >>> variable to save the Json file from front view
         json_user_data = JSONParser().parse(request)
