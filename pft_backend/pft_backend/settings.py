@@ -100,7 +100,7 @@ WSGI_APPLICATION = "pft_backend.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    # >>> default database to interact with Render platform, to deploy, we must use it
+    # >>> default database to interact with Render platform, we must use this one to deploy
     "default": dj_database_url.config(
         default=f"postgres://{os.getenv('DB_USER', default='db_user')}:{os.getenv('DB_PASSWORD', default='db_pwd')}@{os.getenv('DB_HOST', default='db_host')}/{os.getenv('DB_NAME', default='db_name')}",
         conn_max_age=600,
@@ -108,9 +108,12 @@ DATABASES = {
 
     # >>> to test in shell, we use this default database, external connection with postgresql
     #"default": dj_database_url.config(
-    #    default=f"postgres://{os.DB_USER}:{os.DB_PASSWORD}@{os.DB_HOST}.oregon-postgres.render.com/{os.DB_NAME}",
+    #    default=f"postgres://{os.getenv('DB_USER', default='db_user')}:{os.getenv('DB_PASSWORD', default='db_pwd')}@{os.getenv('DB_HOST', default='db_host')}.oregon-postgres.render.com/{
+    #    os.getenv('DB_NAME', default='db_name')}",
     #    conn_max_age=600,
     #)
+
+
 }
 
 
