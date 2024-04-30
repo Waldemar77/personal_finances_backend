@@ -46,10 +46,10 @@ def user_data_api(request, id_in=0):
             # >>> validating if email from db is equals to email deserialized
             user_email_db = UserData.objects.filter(user_email=user_email_desrlz) # >>> return false or true
             if user_email_db:
-                return JsonResponse("[2] This email already exists in our DataBase.")
+                return JsonResponse("[2] This email already exists in our DataBase.", safe=False)
             else:
                 user_srlz.save()
-                return JsonResponse("[1] Your record has been saved successfully")
+                return JsonResponse("[1] Your record has been saved successfully", safe=False)
         else:
-            return JsonResponse(f"[0] There are some errors in your data.{user_srlz.errors}")
+            return JsonResponse(f"[0] There are some errors in your data.{user_srlz.errors}", safe=False)
 
