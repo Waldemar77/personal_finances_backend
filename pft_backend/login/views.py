@@ -11,7 +11,7 @@ from .serializers import *
 
 
 # >>> function for interacting with all data from userdata table
-@api_view(["GET", "POST", "PUT"])
+#@api_view(["GET", "POST", "PUT"])
 @csrf_exempt  # >>> this decorator allows to use the request POST, because CSFR is a security level to validate proper request
 def user_data_api(request, id_in=0):
     # >>> Figure user data out by id through GET http request
