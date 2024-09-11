@@ -11,8 +11,9 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-import dj_database_url
+#import dj_database_url
 import os
+os.environ['LD_LIBRARY_PATH'] = '/usr/lib64'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -101,10 +102,22 @@ WSGI_APPLICATION = "pft_backend.wsgi.application"
 
 DATABASES = {
     # >>> default database to interact with Render platform, we must use this one to deploy
-    "default": dj_database_url.config(
-        default=f"postgres://{os.getenv('DB_USER', default='db_user')}:{os.getenv('DB_PASSWORD', default='db_pwd')}@{os.getenv('DB_HOST', default='db_host')}/{os.getenv('DB_NAME', default='db_name')}",
-        conn_max_age=600,
-    )
+    #"default": dj_database_url.config(
+    #    default=f"postgres://{os.getenv('DB_USER', default='db_user')}:{os.getenv('DB_PASSWORD', default='db_pwd')}@{os.getenv('DB_HOST', default='db_host')}/{os.getenv('DB_NAME', default='db_name')}",
+    #    conn_max_age=600,
+    #)
+    # ----> Connection with Azure SQL Database
+    'default': {
+        'ENGINE': 'mssql',
+        'NAME': 'pft_database',  # Replace with your database name
+        'USER': 'pft_db_admin',  # Replace with your database user
+        'PASSWORD': 'Cicinho-369',  # Replace with your database password
+        'HOST': 'pft-server.database.windows.net',  # Replace with your server name
+        'PORT': '1433',  # Default port for SQL Server
+        'OPTIONS': {
+            'driver': 'ODBC Driver 17 for SQL Server'  # ODBC Driver 17
+        }
+    }
 
     # >>> to test in shell, we use this default database, external connection with postgresql
     #"default": dj_database_url.config(
