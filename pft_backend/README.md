@@ -1,2 +1,2 @@
 # personal_finances_backend
-Django projecto to develop backend for Personal Finances Tracking
+Django project to develop backend for Personal Finances Tracking
