@@ -102,10 +102,10 @@ WSGI_APPLICATION = "pft_backend.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'pft_database',
-        'USER': 'pft_db_admin',
-        'PASSWORD': 'Cicinho-369',
-        'HOST': 'pft-database.mysql.database.azure.com',
+        'NAME': os.getenv('DB_NAME', default='set your database name'),
+        'USER': os.getenv('DB_USER', default='set your database user name'),
+        'PASSWORD': os.getenv('DB_PASSWORD', default='set your database user password'),
+        'HOST': os.getenv('DB_HOST', default='set your host database name'),
         'PORT': '3306',
         'OPTIONS': {
             'ssl': {'verify_cert': True},
