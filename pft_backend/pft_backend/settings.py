@@ -11,8 +11,9 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-import dj_database_url
 import os
+import pymysql as pym
+pym.install_as_MySQLdb()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -54,8 +55,7 @@ DJANGO_APPS = [
 
 THIRD_APPS = [
     "rest_framework",
-    "corsheaders",
-    "dj_database_url",
+    "corsheaders"
 ]
 
 MIDDLEWARE = [
@@ -100,23 +100,18 @@ WSGI_APPLICATION = "pft_backend.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    # >>> default database to interact with Render platform, we must use this one to deploy
-    "default": dj_database_url.config(
-        default=f"postgres://{os.getenv('DB_USER', default='db_user')}:{os.getenv('DB_PASSWORD', default='db_pwd')}@{os.getenv('DB_HOST', default='db_host')}/{os.getenv('DB_NAME', default='db_name')}",
-        conn_max_age=600,
-    )
-
-    # >>> to test in shell, we use this default database, external connection with postgresql
-    #"default": dj_database_url.config(
-    #    default=f"postgres://{os.getenv('DB_USER', default='db_user')}:{os.getenv('DB_PASSWORD', default='db_pwd')}@{os.getenv('DB_HOST', default='db_host')}.oregon-postgres.render.com/{os.getenv('DB_NAME', default='db_name')}",
-    #    conn_max_age=600,
-    #)
-
-    # >>> to test in shell, we use this default database, external connection with postgresql
-    #"default": dj_database_url.config(
-    #    default=f"postgres://pftadmin:KeGrsweeS0qmWLZMNekkMnX6lhcoa3TG@dpg-cokp6q0l5elc73de8910-a.oregon-postgres.render.com/pft_database",
-    #    conn_max_age=600,
-    #)
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'pft_database',
+        'USER': 'pft_db_admin',
+        'PASSWORD': 'Cicinho-369',
+        'HOST': 'pft-database.mysql.database.azure.com',
+        'PORT': '3306',
+        'OPTIONS': {
+            'ssl': {'verify_cert': True},
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+        }
+    }
 }
 
 
