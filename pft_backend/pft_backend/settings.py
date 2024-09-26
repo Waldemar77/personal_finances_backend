@@ -76,6 +76,11 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_APPS + LOCAL_APSS
 
 CORS_ORIGIN_ALLOW_ALL = True
 
+# deleted these lines to PROD environment
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:8080',
+]
+
 ROOT_URLCONF = "pft_backend.urls"
 
 TEMPLATES = [
