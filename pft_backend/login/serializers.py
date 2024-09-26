@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import *
 
-# Serializers are created to realize the interaction between postgresql format to python structure data
+# Serializers are created to realize the interaction between main db format to python structure data
 
 
 # All data from table userdata
