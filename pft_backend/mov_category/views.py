@@ -20,7 +20,7 @@ def all_mov_category_api(request):
 
             allMovCatgSrlz = MovCatgSerializer(allMovCatg_model, many=True)
 
-            return JsonResponse(allMovCatgSrlz, safe=False)
+            return JsonResponse(allMovCatgSrlz.data, safe=False)
         except MovCategory.DoesNotExist:
             return JsonResponse("[0] There is an error with your request.", safe=False)
 
@@ -33,7 +33,7 @@ def mov_category_api(request, enter_id=0):
 
         movCatgSrlz = MovCatgSerializer(movCatg_model, many=True)
 
-        return JsonResponse(movCatgSrlz, safe=False)
+        return JsonResponse(movCatgSrlz.data, safe=False)
 
     # POST request method to insert a category
     elif request.method == "POST":
