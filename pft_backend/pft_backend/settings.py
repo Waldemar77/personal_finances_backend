@@ -69,7 +69,10 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
 ]
 
-LOCAL_APSS = ["login.apps.LoginConfig"]
+LOCAL_APSS = [
+    "login.apps.LoginConfig",
+    "mov_category.apps.MovCategoryConfig"
+]
 
 # We concatenate the list with the apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_APPS + LOCAL_APSS
