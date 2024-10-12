@@ -21,7 +21,7 @@ def all_mov_category_api(request):
             allMovCatgSrlz = MovCatgSerializer(allMovCatg_model, many=True)
 
             return JsonResponse(allMovCatgSrlz, safe=False)
-        except MovCategory.Error:
+        except MovCategory.DoesNotExist:
             return JsonResponse("[0] There is an error with your request.", safe=False)
 
 @api_view(["GET", "POST", "PUT", "DELETE"])
@@ -58,7 +58,7 @@ def mov_category_api(request, enter_id=0):
                 return JsonResponse("[1] Your record has been updated successfully.", safe=False)
             else:
                 return JsonResponse(f"[0] There are some errors in your request {updated_movCatgSrlz}.", safe=False)
-        except MovCategory.DoesNotMatch:
+        except MovCategory.DoesNotExist:
             return JsonResponse(f"The category with id: {enter_id} doesn't exist", safe=False)
 
     # DELETE request to erase one category
@@ -67,5 +67,5 @@ def mov_category_api(request, enter_id=0):
             category2delete = MovCategory.objects.get(pk=enter_id)
             category2delete.delete()
             return JsonResponse(f"[1] Category with id {enter_id} has been deleted successfully.", safe=False)
-        except MovCategory.DoesNotMath:
+        except MovCategory.DoesNotExist:
             JsonResponse(f"[0] Category with id {enter_id} might not exist in our data base.", safe=False)
