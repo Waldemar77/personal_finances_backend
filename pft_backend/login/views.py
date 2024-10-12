@@ -1,4 +1,3 @@
-# from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 from rest_framework.parsers import JSONParser
@@ -6,7 +5,7 @@ from django.http.response import JsonResponse
 from django.contrib.auth.hashers import make_password, check_password
 import json
 
-from .models import *
+from .models import UserData
 from .serializers import *
 
 
@@ -28,18 +27,18 @@ def user_data_api(request, id_in=0):
     elif request.method == "POST":
         # >>> variable to save the Json file from front view
         json_user_data = JSONParser().parse(request)
-        print(f">>> json_user_data {json_user_data}")
+        #print(f">>> json_user_data {json_user_data}")
 
         # >>> encrypting user password
         psw_encrypted = make_password(json_user_data["user_password"])
-        print(f">>> psw_encrypted {psw_encrypted}")
+        #print(f">>> psw_encrypted {psw_encrypted}")
         # >>> setting encrypted password into the data from json
         json_user_data["user_password"] = psw_encrypted
-        print(f">>> json_user_data2 {json_user_data}")
+        #print(f">>> json_user_data2 {json_user_data}")
 
         # >>> variable to use UserSerializer
         user_srlz = UserSerializer(data=json_user_data)
-        print(f">>> user_srlz {user_srlz}")
+        #print(f">>> user_srlz {user_srlz}")
 
         # >>> validating if the user email exists in the db
         # >>> firstly, validating if the serializer was successful

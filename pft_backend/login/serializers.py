@@ -3,7 +3,6 @@ from .models import *
 
 # Serializers are created to realize the interaction between main db format to python structure data
 
-
 # All data from table userdata
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
