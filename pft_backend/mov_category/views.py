@@ -10,6 +10,20 @@ import json
 from .models import MovCategory
 from .serializers import MovCatgSerializer
 
+@api_view(["GET"])
+@csrf_exempt
+def all_mov_category_api(request):
+    # GET request method to consult all categories
+    if request.method == "GET":
+        try:
+            allMovCatg_model = MovCategory.objects.all()
+
+            allMovCatgSrlz = MovCatgSerializer(allMovCatg_model, many=True)
+
+            return JsonResponse(allMovCatgSrlz, safe=False)
+        except MovCategory.Error:
+            return JsonResponse("[0] There is an error with your request.", safe=False)
+
 @api_view(["GET", "POST", "PUT", "DELETE"])
 @csrf_exempt
 def mov_category_api(request, enter_id=0):
