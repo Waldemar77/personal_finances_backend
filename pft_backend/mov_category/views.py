@@ -13,7 +13,7 @@ from .serializers import MovCatgSerializer
 @api_view(["GET"])
 @csrf_exempt
 def all_mov_category_api(request):
-    # GET request method to consult all categories
+    # GET request method to consult all mov categories
     if request.method == "GET":
         try:
             allMovCatg_model = MovCategory.objects.all()
