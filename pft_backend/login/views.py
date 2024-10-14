@@ -76,8 +76,8 @@ def user_data_api(request, id_in=0):
                 return JsonResponse("[1] Your record has been updated successfully", safe=False)
             else:
                 return JsonResponse(f"[0] There are some errors in your data.{user_to_update_srlz.errors}", safe=False)
-        except UserData.DoesNotExist:
-            return JsonResponse(f"[0] User with id {id_in} might not exist in our data base.{user_to_update_srlz.errors}", safe=False)
+        except Exception as e:
+            return JsonResponse(f"[0] User with id {id_in} might not exist in our data base.{user_to_update_srlz.errors}. {e}", safe=False)
 
     # >>> DELETE method to delete user by id
     elif request.method == "DELETE" and int(id_in) > 0:
@@ -85,8 +85,8 @@ def user_data_api(request, id_in=0):
             user_to_delete = UserData.objects.get(pk=id_in)
             user_to_delete.delete()
             return JsonResponse(f"[1] User with id {id_in} has been deleted successfully.", safe=False)
-        except UserData.DoesNotExist:
-            return JsonResponse(f"[0] User with id {id_in} might not exist in our data base.", safe=False)
+        except Exception as e:
+            return JsonResponse(f"[0] User with id {id_in} might not exist in our data base. {e}", safe=False)
 
 # >>> function to interact only with login user data
 @api_view(["POST"])
@@ -111,5 +111,5 @@ def login_api(request):
             return JsonResponse(response_array, safe=False)
         else:
             return JsonResponse("[0] Email or password does not valid.", safe=False)
-    except:
-        return JsonResponse("[0] We cannot find your email. Check your information and try again.", safe=False)
+    except Exception as e:
+        return JsonResponse(f"[0] We cannot find your email. Check your information and try again. {e}", safe=False)

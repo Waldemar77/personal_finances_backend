@@ -71,7 +71,8 @@ MIDDLEWARE = [
 
 LOCAL_APSS = [
     "login.apps.LoginConfig",
-    "mov_category.apps.MovCategoryConfig"
+    "mov_category.apps.MovCategoryConfig",
+    "budget_data.apps.BudgetDataConfig"
 ]
 
 # We concatenate the list with the apps
