@@ -13,9 +13,9 @@ from .serializers import BudgetDataSerializer
 def budget_by_user_api(request, id_in=0):
     try:
         if request.method == "GET" and int(id_in) > 0:
-            model_budgetData = BudgetData.objects.filter(user_id=id_in)
-            srlz_budgetData = BudgetDataSerializer(model_budgetData, many=True)
-            return JsonResponse(srlz_budgetData.data, safe=False)
+            model_budget_data = BudgetData.objects.filter(user_id=id_in)
+            srlz_budget_data = BudgetDataSerializer(model_budget_data, many=True)
+            return JsonResponse(srlz_budget_data.data, safe=False)
         else:
             return JsonResponse(f"[0] There's an error with your request for id: {id_in}.")
     except Exception as e:
