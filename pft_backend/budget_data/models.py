@@ -8,6 +8,6 @@ class BudgetData(models.Model):
     budget_period = models.CharField(max_length=7, blank=False)
     budget_value = models.CharField(max_length=150, blank=False)
     budget_description = models.CharField(max_length=200, blank=True)
-    period_status = models.CharField(max_length=2, blank=False, default="No")
+    period_is_open = models.CharField(max_length=2, blank=False, default="No")
     record_date = models.DateTimeField(auto_now_add=True)
 
