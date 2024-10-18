@@ -12,6 +12,6 @@ class BudgetDataSerializer(serializers.ModelSerializer):
             "budget_period",
             "budget_value",
             "budget_description",
-            "period_status",
+            "period_is_open",
             "record_date"
         )
