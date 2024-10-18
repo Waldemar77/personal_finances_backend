@@ -43,7 +43,7 @@ def budget_by_user_period(request, id_in=0, period=""):
 def saving_budget(request):
     if request.method == "POST":
         try:
-            json_budged_given = JSONParser.parse(request)
+            json_budged_given = JSONParser().parse(request)
             srlz_budget = BudgetDataSerializer(data=json_budged_given)
             if srlz_budget.is_valid():
                 srlz_budget.save()
