@@ -29,7 +29,7 @@ def mov_category_api(request, enter_id=0):
             movCatgSrlz = MovCatgSerializer(movCatg_model, many=True)
             return JsonResponse(movCatgSrlz.data, safe=False)
         except Exception as e:
-            return JsonResponse(f"[-1] Error trying to execute request: {e}")
+            return JsonResponse(f"[-1] Error trying to execute request: {e}", safe=False)
 
     # POST request method to insert a category
     elif request.method == "POST":
@@ -42,7 +42,7 @@ def mov_category_api(request, enter_id=0):
             else:
                 return JsonResponse(f"[0] There are some errors in your request {movCatgSrlz}.", safe=False)
         except Exception as e:
-            return JsonResponse(f"[-1] Error trying to execute request: {e}")
+            return JsonResponse(f"[-1] Error trying to execute request: {e}", safe=False)
 
     # PUT request to update categories if it's necessary
     elif request.method == "PUT" and int(enter_id) > 0:

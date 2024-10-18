@@ -17,9 +17,9 @@ def budget_by_user_api(request, id_in=0):
             srlz_budget_data = BudgetDataSerializer(model_budget_data, many=True)
             return JsonResponse(srlz_budget_data.data, safe=False)
         else:
-            return JsonResponse(f"[0] There's an error with your request for id: {id_in}.")
+            return JsonResponse(f"[0] There's an error with your request for id: {id_in}.", safe=False)
     except Exception as e:
-        return JsonResponse(f"[-1] Error trying to execute request: {e}")
+        return JsonResponse(f"[-1] Error trying to execute request: {e}", safe=False)
 
 @api_view(["GET"])
 @csrf_exempt
@@ -33,9 +33,9 @@ def budget_by_user_period(request, id_in=0, period=""):
             srlz_budget_u_p = BudgetDataSerializer(model_budget_u_p, many=True)
             return JsonResponse(srlz_budget_u_p.data, safe=False)
         except Exception as e:
-            return JsonResponse(f"[-1] Error trying to execute request: {e}")
+            return JsonResponse(f"[-1] Error trying to execute request: {e}", safe=False)
     else:
-        return JsonResponse(f"[-1] HTTP request is not correct: {request.method}")
+        return JsonResponse(f"[-1] HTTP request is not correct: {request.method}", safe=False)
 
 @api_view(["POST"])
 @csrf_exempt
