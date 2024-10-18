@@ -23,7 +23,7 @@ def budget_by_user_api(request, id_in=0):
 
 @api_view(["GET"])
 @csrf_exempt
-# API to consult budget data by user and period
+# API to consult budget data by user and period.
 def budget_by_user_period(request, id_in=0, period=""):
     if request.method == "GET" and int(id_in) > 0 and period != "":
         try:
