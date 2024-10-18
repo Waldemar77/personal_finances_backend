@@ -39,7 +39,7 @@ def budget_by_user_period(request, id_in=0, period=""):
 
 @api_view(["POST"])
 @csrf_exempt
-# API to consult budget data by user and period
+# API to save budget
 def saving_budget(request):
     if request.method == "POST":
         try:
@@ -51,6 +51,6 @@ def saving_budget(request):
             else:
                 return JsonResponse(f"[0] There are some errors in your request {srlz_budget}.", safe=False)
         except Exception as e:
-            return JsonResponse(f"[-1] Error trying to execute request: {e}")
+            return JsonResponse(f"[-1] Error trying to execute request: {e}", safe=False)
     else:
-        return JsonResponse(f"[-1] HTTP request is not correct: {request.method}")
+        return JsonResponse(f"[-1] HTTP request is not correct: {request.method}", safe=False)
