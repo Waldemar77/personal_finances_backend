@@ -8,6 +8,7 @@ class MovCatgSerializer(serializers.ModelSerializer):
         fields = (
             "mov_catg_id",
             "main_category",
+            "second_catg",
             "category_name",
             "category_description",
             "record_date",
