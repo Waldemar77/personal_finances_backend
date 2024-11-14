@@ -47,7 +47,7 @@ def mov_category_api(request, enter_id=0):
     # PUT request to update categories if it's necessary
     elif request.method == "PUT" and int(enter_id) > 0:
         try:
-            json_update_movCatg = JSONParser.parse(request)
+            json_update_movCatg = JSONParser().parse(request)
             category2update = MovCategory.objects.get(pk=enter_id)
             updated_movCatgSrlz = MovCatgSerializer(category2update, data=json_update_movCatg)
             if updated_movCatgSrlz.is_valid():

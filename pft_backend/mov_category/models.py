@@ -4,6 +4,7 @@ from django.db import models
 class MovCategory(models.Model):
     mov_catg_id = models.AutoField(primary_key=True)
     main_category = models.CharField(max_length=30, blank=False) #personal_finances or trips
+    second_catg = models.CharField(max_length=30, blank=False)  # 1=incomes or 2=expenses
     category_name = models.CharField(max_length=30, blank=False)
     category_description = models.CharField(max_length=80, blank=True)
     record_date = models.DateTimeField(auto_now_add=True)

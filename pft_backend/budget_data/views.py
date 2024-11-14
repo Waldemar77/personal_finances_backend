@@ -1,3 +1,4 @@
+from itertools import count
 from warnings import catch_warnings
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
@@ -40,16 +41,30 @@ def budget_by_user_period(request, id_in=0, period=""):
 @api_view(["POST"])
 @csrf_exempt
 # API to save budget
+# Always we need to receive a list of json records
 def saving_budget(request):
+    # Variables to track behavior:
+    count_json_in = 0
+    records_saved = 0
     if request.method == "POST":
         try:
             json_budged_given = JSONParser().parse(request)
-            srlz_budget = BudgetDataSerializer(data=json_budged_given)
-            if srlz_budget.is_valid():
-                srlz_budget.save()
-                return JsonResponse("[1] Your record has been saved successfully.", safe=False)
+            count_json_in = len(json_budged_given)
+
+            # serializing each set of records from json file request
+            for element in json_budged_given:
+                srlz_budget = BudgetDataSerializer(data=element)
+                if srlz_budget.is_valid():
+                    srlz_budget.save()
+                    records_saved += 1
+                else:
+                    return JsonResponse(f"[0] There are some errors in your request {srlz_budget}.", safe=False)
+
+            # Checking if count of json request is equal to records saved
+            if count_json_in == records_saved:
+                return JsonResponse(f"[1] All your records have been saved successfully.", safe=False)
             else:
-                return JsonResponse(f"[0] There are some errors in your request {srlz_budget}.", safe=False)
+                return JsonResponse(f"[0] Some of your records haven't been saved.", safe=False)
         except Exception as e:
             return JsonResponse(f"[-1] Error trying to execute request: {e}", safe=False)
     else:
