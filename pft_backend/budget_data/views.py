@@ -1,12 +1,14 @@
-from itertools import count
-from warnings import catch_warnings
+
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
+from django.db.models import OuterRef, Subquery, Max, IntegerField, ExpressionWrapper
+from django.db.models.functions import Cast, Concat, Substr
 
 from .models import BudgetData
-from .serializers import BudgetDataSerializer
+from .serializers import BudgetDataSerializer, PeriodUserSerializer
+
 
 @api_view(["GET"])
 @csrf_exempt
@@ -37,6 +39,48 @@ def budget_by_user_period(request, id_in=0, period=""):
             return JsonResponse(f"[-1] Error trying to execute request: {e}", safe=False)
     else:
         return JsonResponse(f"[-1] HTTP request is not correct: {request.method}", safe=False)
+
+@api_view(["GET"])
+@csrf_exempt
+# API to consult all periods budget for a user id and status opened
+def get_period_open_user(request, id_in=0):
+    try:
+        if request.method == "GET" and int(id_in) > 0:
+            # Extract year and month from budget_period
+            year_part = Substr('budget_period', 1, 4)
+            month_part = Substr('budget_period', 6, 2)
+
+            # Combine year and month parts and cast to integer
+            budget_period_numeric = ExpressionWrapper(
+                Cast(Concat(year_part, month_part), output_field=IntegerField()),
+                output_field=IntegerField()
+            )
+
+            # Subquery to get the latest record_date for each budget_period
+            latest_period_subquery = BudgetData.objects.filter(
+                user_id=id_in,
+                period_is_open="Si",
+                budget_period=OuterRef('budget_period')
+            ).values('budget_period').annotate(
+                latest_date=Max('record_date')
+            ).values('latest_date')
+
+            # Main query to filter and get distinct budget_periods with the latest record_date
+            get_data_distinct = BudgetData.objects.filter(
+                user_id=id_in,
+                period_is_open="Si",
+                record_date=Subquery(latest_period_subquery)
+            ).annotate(
+                budget_period_numeric=budget_period_numeric
+            ).order_by('-budget_period_numeric')
+
+            srlz_period_data = PeriodUserSerializer(get_data_distinct, many=True)
+            return JsonResponse(srlz_period_data.data, safe=False)
+        else:
+            return JsonResponse({"error": f"There's an error with your request for id: {id_in}."}, safe=False)
+    except Exception as e:
+        return JsonResponse({"error": f"Error trying to execute request: {e}"}, safe=False)
+
 
 @api_view(["POST"])
 @csrf_exempt

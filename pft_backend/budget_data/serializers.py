@@ -15,3 +15,14 @@ class BudgetDataSerializer(serializers.ModelSerializer):
             "period_is_open",
             "record_date",
         )
+
+# Serializer to handle only periods by user
+class PeriodUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BudgetData
+        fields = (
+            "user_id",
+            "budget_period",
+            "period_is_open",
+            "record_date",
+        )
