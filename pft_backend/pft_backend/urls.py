@@ -21,5 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', include('login.urls')),
     path('mov_category/', include('mov_category.urls')),
-    path('budget/', include('budget_data.urls'))
+    path('budget/', include('budget_data.urls')),
+    path('mov/', include('movement_data.urls'))
 ]
