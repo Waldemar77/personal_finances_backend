@@ -8,6 +8,8 @@ urlpatterns = [
     re_path(f'^all_period_open_user/([0-9]+)/?$', views.get_period_open_user ),
     # endpoint to get and save budget data by user and period
     re_path(f'^mov_user_period/([0-9]+)/([0-9_-]+)/?$', views.mov_by_user_period),
-    # endpoint to saving new budget:
+    # endpoint to save a new dataset of budget:
     re_path(f'^saving_mov/?$', views.saving_mov),
+    # endpoint to update or delete a movement:
+    re_path(f'^updelete_mov/([0-9]+)/?$', views.update_delete_mov)
 ]

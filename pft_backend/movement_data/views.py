@@ -7,7 +7,7 @@ from django.db.models import OuterRef, Subquery, Max, IntegerField, ExpressionWr
 from django.db.models.functions import Cast, Concat, Substr
 
 from .models import MovementData
-from .serializers import MovDataSerializer, PeriodUserSerializer
+from .serializers import MovDataSerializer, PeriodUserSerializer, MovUpdateSerializer
 
 
 @api_view(["GET"])
@@ -113,3 +113,30 @@ def saving_mov(request):
             return JsonResponse(f"[-1] Error trying to execute request: {e}", safe=False)
     else:
         return JsonResponse(f"[-1] HTTP request is not correct: {request.method}", safe=False)
+
+# Method to update and delete a movement by id_movement
+@api_view(['PUT', 'DELETE'])
+@csrf_exempt
+def update_delete_mov(request, id_mov=0):
+    # PUT request to update movements if it's necessary
+    if request.method == "PUT" and int(id_mov) > 0:
+        try:
+            json_update_mov = JSONParser().parse(request)
+            mov2update = MovementData.objects.get(pk=id_mov)
+            updated_mov_srlz = MovUpdateSerializer(mov2update, data=json_update_mov)
+            if updated_mov_srlz.is_valid():
+                updated_mov_srlz.save()
+                return JsonResponse("[1] Your record has been updated successfully.", safe=False)
+            else:
+                return JsonResponse(f"[0] There are some errors in your request {updated_mov_srlz}.", safe=False)
+        except Exception as e:
+            return JsonResponse(f"The movement with id: {id_mov} doesn't exist {e}", safe=False)
+
+    # DELETE request to erase one movement
+    elif request.method == "DELETE" and int(id_mov):
+        try:
+            mov2delete = MovementData.objects.get(pk=id_mov)
+            mov2delete.delete()
+            return JsonResponse(f"[1] Movement with id {id_mov} has been deleted successfully.", safe=False)
+        except Exception as e:
+            JsonResponse(f"[0] Movement with id {id_mov} might not exist in our data base. {e}", safe=False)

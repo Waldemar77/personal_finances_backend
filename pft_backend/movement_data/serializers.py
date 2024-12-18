@@ -27,3 +27,16 @@ class PeriodUserSerializer(serializers.ModelSerializer):
             "period_is_open",
             "record_date",
         )
+
+# Serializer to handle updated movements
+class MovUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MovementData
+        fields = (
+            "mov_id",
+            "mov_catg_id",
+            "mov_value",
+            "mov_date",
+            "mov_description",
+            "last_update_date",
+        )

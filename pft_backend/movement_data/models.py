@@ -11,4 +11,5 @@ class MovementData(models.Model):
     mov_description = models.CharField(max_length=200, blank=True)
     period_is_open = models.CharField(max_length=1, blank=False, default="Y")
     record_date = models.DateTimeField(auto_now_add=True)
+    last_update_date = models.CharField(max_length=10, blank=True)  # yyyy-MM-dd
 
