@@ -42,6 +42,46 @@ def budget_by_user_period(request, id_in=0, period=""):
 
 @api_view(["GET"])
 @csrf_exempt
+# API to consult all periods created (opened and closed).
+def user_all_periods(request, id_in=0):
+    try:
+        if request.method == "GET" and int(id_in) > 0:
+            # Extract year and month from mov_period
+            year_part = Substr('budget_period', 1, 4)
+            month_part = Substr('budget_period', 6, 2)
+
+            # Combine year and month parts and cast to integer
+            budget_period_numeric = ExpressionWrapper(
+                Cast(Concat(year_part, month_part), output_field=IntegerField()),
+                output_field=IntegerField()
+            )
+
+            # Subquery to get the latest record_date for each budget_period
+            latest_period_subquery = BudgetData.objects.filter(
+                user_id=id_in,
+                budget_period=OuterRef('budget_period')
+            ).values('budget_period').annotate(
+                latest_date=Max('record_date')
+            ).values('latest_date')
+
+            # Main query to filter and get distinct mov_periods with the latest record_date
+            get_data_distinct = BudgetData.objects.filter(
+                user_id=id_in,
+                record_date=Subquery(latest_period_subquery)
+            ).annotate(
+                budget_period_numeric=budget_period_numeric
+            ).order_by('-budget_period_numeric')
+
+            srlz_period_data = PeriodUserSerializer(get_data_distinct, many=True)
+            return JsonResponse(srlz_period_data.data, safe=False)
+        else:
+            return JsonResponse({"error": f"There's an error with your request for id: {id_in}."}, safe=False)
+    except Exception as e:
+        return JsonResponse({"error": f"Error trying to execute request: {e}"}, safe=False)
+
+
+@api_view(["GET"])
+@csrf_exempt
 # API to consult all periods budget for a user id and status opened
 def get_period_open_user(request, id_in=0):
     try:

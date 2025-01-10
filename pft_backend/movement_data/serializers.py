@@ -15,6 +15,7 @@ class MovDataSerializer(serializers.ModelSerializer):
             "mov_description",
             "period_is_open",
             "record_date",
+            "last_update_date"
         )
 
 # Serializer to handle only periods by user
