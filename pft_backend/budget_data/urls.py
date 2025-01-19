@@ -14,6 +14,9 @@ urlpatterns = [
     # endpoint to get and save budget data by user and period
     re_path(f'^budget_user_period/([0-9]+)/([0-9_-]+)/?$', views.budget_by_user_period),
 
-    # endpoint to saving new budget:
+    # endpoint to save new budget:
     re_path(f'^saving_budget/?$', views.saving_budget),
+
+    # endpoint to close a budget period:
+    re_path(f'^closing_bgt_period/([0-9]+)/([0-9_-]+)/?$', views.update_close_period),
 ]

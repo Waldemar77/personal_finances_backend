@@ -7,7 +7,7 @@ from django.db.models import OuterRef, Subquery, Max, IntegerField, ExpressionWr
 from django.db.models.functions import Cast, Concat, Substr
 
 from .models import BudgetData
-from .serializers import BudgetDataSerializer, PeriodUserSerializer
+from .serializers import BudgetDataSerializer, PeriodUserSerializer, ClosePeriodSerializer
 
 
 @api_view(["GET"])
@@ -153,3 +153,27 @@ def saving_budget(request):
             return JsonResponse(f"[-1] Error trying to execute request: {e}", safe=False)
     else:
         return JsonResponse(f"[-1] HTTP request is not correct: {request.method}", safe=False)
+
+# Method to update period status (to close period)
+@api_view(['PUT'])
+@csrf_exempt
+def update_close_period(request, id_user, period):
+    #period format: yyyy-MM example 2024-12
+    try:
+        json_update_per = JSONParser().parse(request)
+
+        period_to_update = BudgetData.objects.filter(
+            user_id = id_user,
+            budget_period = period
+        )
+
+        for mov in period_to_update:
+            updated_period = ClosePeriodSerializer(mov, data=json_update_per, partial=True)
+            if updated_period.is_valid():
+                updated_period.save()
+                return JsonResponse(f"[1] You have closed the period {period} successfully.", safe=False)
+            else:
+                return JsonResponse(f"[0] There are some errors in your request {json_update_per}.", safe=False)
+
+    except Exception as e:
+        return JsonResponse(f"[0] There are some errors in your request {request}. Check that your user {id_user} or period {period} exist. {e}", safe=False)

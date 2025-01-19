@@ -167,7 +167,7 @@ def update_delete_mov(request, id_mov=0):
                 updated_mov_srlz.save()
                 return JsonResponse("[1] Your record has been updated successfully.", safe=False)
             else:
-                return JsonResponse(f"[0] There are some errors in your request {updated_mov_srlz}.", safe=False)
+                return JsonResponse(f"[0] There are some errors in your request {json_update_mov}.", safe=False)
         except Exception as e:
             return JsonResponse(f"The movement with id: {id_mov} doesn't exist {e}", safe=False)
 
