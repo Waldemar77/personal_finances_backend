@@ -10,4 +10,5 @@ class BudgetData(models.Model):
     budget_description = models.CharField(max_length=200, blank=True)
     period_is_open = models.CharField(max_length=2, blank=False, default="No")
     record_date = models.DateTimeField(auto_now_add=True)
+    close_per_date = models.CharField(max_length=10, blank=True)  # yyyy-MM-dd
 
